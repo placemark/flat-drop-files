@@ -26,7 +26,7 @@ This is at the bleeding edge of the web, so there are some caveats.
 ### Example
 
 ```ts
-import { getFilesFromDataTransferItems } from "../index";
+import { getFilesFromDataTransferItems } from "@placemarkio/flat-drop-files";
 
 const zone = document.getElementById('zone');
 
