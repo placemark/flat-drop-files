@@ -64,6 +64,12 @@ This is inspired by [datatransfer-files-promise](https://github.com/anatol-grabo
 contains collected lessons from [dropzone](https://github.com/dropzone/dropzone),
 and adapts its junk-file detection from Sindre Sorhus's excellent [junk](https://github.com/sindresorhus/junk) module.
 
+### Testing
+
+This kind of module is exceptionally hard to test with automated tests. Thus, there's a manual test suite. Start the
+test suite with `yarn start`, which will boot up a local server, and follow the instructions, which involve dragging & dropping
+particular files and folders into the browser.
+
 ### Comments
 
 You'll find plenty of comments in `index.ts` about different gotchas and traps in the DataTransferItem, FileSystemEntry, and other APIs. It's unfortunately easy to get these things wrong, whether it's assuming that [DataTransferItem.kind](https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/kind) will correctly identify a directory, or forgetting to call `readEntries` on a directory reader repeatedly to page through each 100-item batch of files.
