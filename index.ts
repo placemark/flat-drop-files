@@ -114,6 +114,7 @@ function getReadEntries(
 function getHandle(
   item: DataTransferItem | undefined
 ): Promise<FileSystemFileHandle | null> {
+  // Currently only Chromium browsers support getAsFileSystemHandle.
   if (!item || !item.getAsFileSystemHandle) {
     return Promise.resolve(null);
   }
