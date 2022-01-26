@@ -202,7 +202,6 @@ export function getFilesFromDataTransferItems(
   dataTransferItems: DataTransferItemList
 ): Promise<FileWithHandleAndPath[]> {
   const inputs: [FileSystemEntry, DataTransferItem][] = [];
-  let files: FileWithHandleAndPath[] = [];
 
   /**
    * It is ESSENTIAL that we do not do any async work in
@@ -218,6 +217,14 @@ export function getFilesFromDataTransferItems(
     if (entry) inputs.push([entry, item]);
   }
 
+  /**
+   * Danger zone here. It's tempting to refactor this to a loop
+   * with await. However, that'll break our ability to get file handles.
+   * Promise.all is able to get all of the handles on the same
+   * tick, whereas if you attempt to get multiple file handles
+   * in multiple ticks, you'll lose the ability to get a file
+   * handle after getting the first one.
+   */
   return Promise.all(
     inputs.map(([entry, item]) => getFilesFromEntry(entry, item))
   ).then((nested) => {
