@@ -23,6 +23,29 @@ This is at the bleeding edge of the web, so there are some caveats.
   includes the `@types/wicg-file-system-access` module to polyfill that type until
   it is properly introduced.
 
+### Example
+
+```ts
+import { getFilesFromDataTransferItems } from "../index";
+
+const zone = document.getElementById('zone');
+
+zone.addEventListener("dragenter", (e) => {
+  e.preventDefault();
+});
+
+zone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+
+zone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  getFilesFromDataTransferItems(e.dataTransfer!.items).then(files => {
+    console.log(files);
+  });
+});
+```
+
 ### Compatibility
 
 This module is compatible with modern browsers: the baseline is browsers
