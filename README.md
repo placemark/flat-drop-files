@@ -22,6 +22,10 @@ This is at the bleeding edge of the web, so there are some caveats.
 - TypeScript does not support `FileSystemFileHandle` objects yet. This module
   includes the `@types/wicg-file-system-access` module to polyfill that type until
   it is properly introduced.
+  
+### Installation
+
+This module is [published on npm as @placemarkio/flat-drop-files](https://www.npmjs.com/package/@placemarkio/flat-drop-files).
 
 ### Example
 
