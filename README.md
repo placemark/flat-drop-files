@@ -40,3 +40,7 @@ with it, you can write back to the files using the `file.handle` property.
 This is inspired by [datatransfer-files-promise](https://github.com/anatol-grabowski/datatransfer-files-promise),
 contains collected lessons from [dropzone](https://github.com/dropzone/dropzone),
 and adapts its junk-file detection from Sindre Sorhus's excellent [junk](https://github.com/sindresorhus/junk) module.
+
+### Comments
+
+You'll find plenty of comments in `index.ts` about different gotchas and traps in the DataTransferItem, FileSystemEntry, and other APIs. It's unfortunately easy to get these things wrong, whether it's assuming that [DataTransferItem.kind](https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/kind) will correctly identify a directory, or forgetting to call `readEntries` on a directory reader repeatedly to page through each 100-item batch of files.
