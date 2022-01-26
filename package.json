@@ -1,0 +1,21 @@
+{
+  "name": "@placemarkio/flat-drop-files",
+  "version": "1.0.0",
+  "description": "Flatten, normalize, and handle dropped files",
+  "main": "index.js",
+  "author": "Tom MacWright",
+  "license": "MIT",
+  "source": "test/index.html",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "parcel"
+  },
+  "devDependencies": {
+    "@types/wicg-file-system-access": "^2020.9.4",
+    "parcel": "^2.2.1",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.5"
+  }
+}
