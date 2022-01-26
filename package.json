@@ -2,18 +2,26 @@
   "name": "@placemarkio/flat-drop-files",
   "version": "1.0.0",
   "description": "Flatten, normalize, and handle dropped files",
-  "main": "index.js",
+  "main": "./dist/flatdropfiles.js",
+  "types": "./dist/index.d.ts",
   "author": "Tom MacWright",
   "license": "MIT",
-  "source": "test/index.html",
+  "source": "index.ts",
+  "exports": {
+    "require": "./dist/flatdropfiles.js",
+    "default": "./dist/flatdropfiles.modern.js"
+  },
+  "module": "./dist/flatdropfiles.module.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "start": "parcel"
+    "build": "microbundle",
+    "start": "parcel serve test/index.html --dist-dir .parcel"
   },
   "devDependencies": {
     "@types/wicg-file-system-access": "^2020.9.4",
+    "microbundle": "^0.14.2",
     "parcel": "^2.2.1",
     "prettier": "^2.5.1",
     "typescript": "^4.5.5"
