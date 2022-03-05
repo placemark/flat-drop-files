@@ -44,7 +44,7 @@ zone.addEventListener("dragover", (e) => {
 
 zone.addEventListener("drop", (e) => {
   e.preventDefault();
-  getFilesFromDataTransferItems(e.dataTransfer!.items).then(files => {
+  getFilesFromDataTransferItems(e.dataTransfer.items).then(files => {
     console.log(files);
   });
 });
