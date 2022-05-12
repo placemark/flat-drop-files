@@ -9,6 +9,7 @@
   "types": "./dist/index.d.ts",
   "author": "Tom MacWright",
   "license": "MIT",
+  "type": "module",
   "source": "index.ts",
   "exports": {
     "require": "./dist/flatdropfiles.js",
