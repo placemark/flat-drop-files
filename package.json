@@ -12,14 +12,15 @@
   "source": "index.ts",
   "exports": {
     "require": "./dist/flatdropfiles.js",
-    "default": "./dist/flatdropfiles.modern.js"
+    "default": "./dist/flatdropfiles.module.mjs"
   },
-  "module": "./dist/flatdropfiles.module.js",
+  "module": "./dist/flatdropfiles.module.mjs",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "microbundle",
+    "prepare": "microbundle",
     "start": "parcel serve test/index.html --dist-dir .parcel"
   },
   "devDependencies": {
