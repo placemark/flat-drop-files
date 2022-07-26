@@ -1,38 +1,33 @@
-# @placemarkio/flat-drop-files
+# @sec-ant/flat-drop-files
 
-The Drag & Drop [dataTransfer](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer)
-interface is powerful, but torturous. It has grown organically and via standards,
-and is full of [footguns](https://www.wordsense.eu/footguns/) which make it trivially
-easy to mess up.
+The is a fork of [placemark/flat-drop-files](https://github.com/placemark/flat-drop-files) with some modifications for it to be align with [GoogleChromeLabs/browser-fs-access](https://github.com/GoogleChromeLabs/browser-fs-access)
 
-This is an attempt to make it all "just work." The input is a `dataTransfer.items`
-list, and the output is a normalized list of files, with a `handle` property
-that's a [FileSystemFileHandle](https://developer.mozilla.org/en-US/docs/Web/API/FileSystemFileHandle),
-and a `path` property that's a reconstructed relative file path.
+The input is a `dataTransfer.items` list with some optional options, and the output is a normalized list of files, each of which has an optional `handle` property, which is a [`FileSystemFileHandle`](https://developer.mozilla.org/en-US/docs/Web/API/FileSystemFileHandle), an optional `directoryHandle` property, which is a [`FileSystemDirectoryHandle`](https://developer.mozilla.org/en-US/docs/Web/API/FileSystemDirectoryHandle) and a `webkitRelativePath` property that's a reconstructed relative file path if the file locates in a directory, or an empty string `""` otherwise. The behavior of extending the `File` interface in this module is in consistent with what's done in [GoogleChromeLabs/browser-fs-access](https://github.com/GoogleChromeLabs/browser-fs-access).
 
 This module takes care of:
 
-- Recursively collecting files within directories
-- Reassembling paths of nested files
-- Paging through directories with over 100 files
-- Ignoring [junk](https://github.com/sindresorhus/junk) files like `.DS_Store`
+- Optionally recursively collecting files within directories
+- Reassembling paths of nested files and assigning them to `webkitRelativePath`s
+- Adding file and directory handles to each file if [`DataTransferItem.getAsFileSystemHandle()`](<DataTransferItem.getAsFileSystemHandle()>) is supported
+- Auto falling back to [`FileSystemEntry`](https://developer.mozilla.org/en-US/docs/Web/API/FileSystemEntry) API when [`DataTransferItem.getAsFileSystemHandle()`](<DataTransferItem.getAsFileSystemHandle()>) is not supported
+- Optionally whitelisting file extensions or skipping directories
 
-This is at the bleeding edge of the web, so there are some caveats.
+This module **DOES NOT** take care of
 
-- TypeScript does not support `FileSystemFileHandle` objects yet. This module
-  includes the `@types/wicg-file-system-access` module to polyfill that type until
-  it is properly introduced.
-  
+- Ignoring junk files (You should handle this yourself after you collect the files)
+
 ### Installation
 
-This module is [published on npm as @placemarkio/flat-drop-files](https://www.npmjs.com/package/@placemarkio/flat-drop-files).
+```bash
+yarn add https://github.com/Sec-ant/flat-drop-files
+```
 
 ### Example
 
 ```ts
-import { getFilesFromDataTransferItems } from "@placemarkio/flat-drop-files";
+import { getFilesFromDataTransferItems } from "@sec-ant/flat-drop-files";
 
-const zone = document.getElementById('zone');
+const zone = document.getElementById("zone");
 
 zone.addEventListener("dragenter", (e) => {
   e.preventDefault();
@@ -44,35 +39,52 @@ zone.addEventListener("dragover", (e) => {
 
 zone.addEventListener("drop", (e) => {
   e.preventDefault();
-  getFilesFromDataTransferItems(e.dataTransfer.items).then(files => {
-    console.log(files);
-  });
+  getFilesFromDataTransferItems(e.dataTransfer.items).then(
+    (files) => {
+      console.log(files);
+    },
+    {
+      recursive: true,
+    }
+  );
 });
+```
+
+### API
+
+```ts
+type SkipDirectory = (
+  e: FileSystemDirectoryEntry | FileSystemDirectoryHandle
+) => boolean;
+
+interface DropOptions {
+  // Set to `true` to recursively collect files in all subdirectories,
+  // defaults to `false`.
+  recursive?: boolean;
+  // Callback to determine whether a directory should be entered, return `true` to skip.
+  skipDirectory?: SkipDirectory;
+  // List of allowed file extensions (with leading '.').
+  extensions?: string[];
+}
+
+declare function getFilesFromDataTransferItems(
+  dataTransferItems: DataTransferItemList,
+  options?: DropOptions
+): Promise<File[]>;
 ```
 
 ### Compatibility
 
-This module is compatible with modern browsers: the baseline is browsers
-that support [webkitGetAsEntry](https://caniuse.com/mdn-api_datatransferitem_webkitgetasentry).
-It does not support IE11 or any other ancient browsers.
+This module is compatible with modern browsers: the baseline is browsers that support [webkitGetAsEntry](https://caniuse.com/mdn-api_datatransferitem_webkitgetasentry). It does not support IE11 or any other ancient browsers.
 
 ### Ecosystem
 
-The [browser-fs-access](https://github.com/GoogleChromeLabs/browser-fs-access) module
-is highly recommended to work with the file objects returned by this module:
-with it, you can write back to the files using the `file.handle` property.
+The [browser-fs-access](https://github.com/GoogleChromeLabs/browser-fs-access) module is highly recommended to work with the file objects returned by this module: with it, you can write back to the files using the `file.handle` property or write back to the directories where the files locate using the `file.directoryHandle` property.
 
-### Source
+### Acknowledgements
 
-This is inspired by [datatransfer-files-promise](https://github.com/anatol-grabowski/datatransfer-files-promise),
-contains collected lessons from [dropzone](https://github.com/dropzone/dropzone),
-and adapts its junk-file detection from Sindre Sorhus's excellent [junk](https://github.com/sindresorhus/junk) module.
-
-### Testing
-
-This kind of module is exceptionally hard to test with automated tests. Thus, there's a manual test suite. Start the
-test suite with `yarn start`, which will boot up a local server, and follow the instructions, which involve dragging & dropping
-particular files and folders into the browser.
+- [placemark/flat-drop-files](https://github.com/placemark/flat-drop-files)
+- [GoogleChromeLabs/browser-fs-access](https://github.com/GoogleChromeLabs/browser-fs-access)
 
 ### Comments
 
