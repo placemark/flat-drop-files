@@ -8,8 +8,8 @@ This module takes care of:
 
 - Optionally recursively collecting files within directories
 - Reassembling paths of nested files and assigning them to `webkitRelativePath`s
-- Adding file and directory handles to each file if [`DataTransferItem.getAsFileSystemHandle()`](<DataTransferItem.getAsFileSystemHandle()>) is supported
-- Auto falling back to [`FileSystemEntry`](https://developer.mozilla.org/en-US/docs/Web/API/FileSystemEntry) API when [`DataTransferItem.getAsFileSystemHandle()`](<DataTransferItem.getAsFileSystemHandle()>) is not supported
+- Adding file and directory handles to each file if [`DataTransferItem.getAsFileSystemHandle()`](https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/getAsFileSystemHandle) is supported
+- Auto falling back to [`FileSystemEntry`](https://developer.mozilla.org/en-US/docs/Web/API/FileSystemEntry) API when [`DataTransferItem.getAsFileSystemHandle()`](https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/getAsFileSystemHandle) is not supported
 - Optionally whitelisting file extensions or skipping directories
 
 This module **DOES NOT** take care of
