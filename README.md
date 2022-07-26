@@ -18,6 +18,14 @@ This module **DOES NOT** take care of
 
 ### Installation
 
+Install from npm:
+
+```bash
+yarn add @sec-ant/flat-drop-files
+```
+
+Install from GitHub:
+
 ```bash
 yarn add https://github.com/Sec-ant/flat-drop-files
 ```
@@ -86,6 +94,6 @@ The [browser-fs-access](https://github.com/GoogleChromeLabs/browser-fs-access) m
 - [placemark/flat-drop-files](https://github.com/placemark/flat-drop-files)
 - [GoogleChromeLabs/browser-fs-access](https://github.com/GoogleChromeLabs/browser-fs-access)
 
-### Comments
+### Todo
 
-You'll find plenty of comments in `index.ts` about different gotchas and traps in the DataTransferItem, FileSystemEntry, and other APIs. It's unfortunately easy to get these things wrong, whether it's assuming that [DataTransferItem.kind](https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/kind) will correctly identify a directory, or forgetting to call `readEntries` on a directory reader repeatedly to page through each 100-item batch of files.
+- Add mimetype filter support
